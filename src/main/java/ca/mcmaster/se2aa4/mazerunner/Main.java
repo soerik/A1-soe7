@@ -17,25 +17,25 @@ public class Main {
 
         CommandLineParser parser = new DefaultParser();
         CommandLine cmd;
+        String mazeinput = null;
 
         logger.info("** Starting Maze Runner");
         try {
             cmd = parser.parse( options, args);
             if (cmd.hasOption("i")) {
-                String maze = cmd.getOptionValue("i");
-                System.out.println("pass");
-                logger.info("Maze successfully inputted: {}", maze);
+                mazeinput = cmd.getOptionValue("i");
+                logger.info("Maze successfully inputted: {}", mazeinput);
             } else {
-                System.out.println("fail");
                 logger.error("Error: No -i flag found.");
                 System.exit(1);
-        }
+            }
         } catch(Exception e) {
             logger.error("/!\\ An error has occured /!\\");
         }
         logger.info("**** Computing path");
         //BUSINESS LOGIC HERE
-    
+        Maze maze = new Maze(mazeinput);
+        
         logger.info("** End of MazeRunner");
         
     }

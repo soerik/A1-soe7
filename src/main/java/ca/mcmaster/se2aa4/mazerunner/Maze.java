@@ -15,8 +15,8 @@ public class Maze {
     private int wall;
     private int pass;
     private int[] dimensions;
-    public int xlen;
-    public int ylen;
+    private int xlen;
+    private int ylen;
     private String mazeinput;
 
     public Maze(String mazeinput) {
@@ -72,4 +72,36 @@ public class Maze {
         }
         return maze;
     }
+
+    //returns y coordinate of starting square (x is assumed to be 0) 
+    public int locateStart() {
+        int ycoord = -1;
+        int iswall = 1;
+        while (iswall == 1) {
+            ycoord++;
+            iswall = maze[0][ycoord];
+        }
+        return ycoord;
+    }
+
+    //returns y coordinate of ending square (x is assumed to be xlen-1) 
+    public int locateEnd() {
+        int ycoord = -1;
+        int iswall = 1;
+        while(iswall == 1) {
+            ycoord++;
+            iswall = maze[xlen-1][ycoord];
+        }
+        return ycoord;
+    }
+
+    public boolean isPassable(int xcoord, int ycoord) {
+        if (maze[xcoord][ycoord] == 0) {
+            return true;
+        } else { return false; }
+    }
 }
+
+
+
+

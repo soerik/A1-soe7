@@ -35,6 +35,7 @@ public class Main {
         logger.info("**** Computing path");
         //BUSINESS LOGIC HERE
         Maze maze = new Maze(mazeinput);
+        Runner runner = new Runner(maze.locateStart());
         
         logger.info("** End of MazeRunner");
         

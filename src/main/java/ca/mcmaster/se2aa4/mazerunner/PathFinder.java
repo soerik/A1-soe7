@@ -29,10 +29,4 @@ public class PathFinder extends PathUtils {
             logger.error("ERROR:Path was not found.");
         }   
     }
-    
-    
-
-
-
-    
 }

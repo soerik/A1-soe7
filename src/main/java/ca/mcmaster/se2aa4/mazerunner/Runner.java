@@ -10,16 +10,39 @@ public class Runner {
     private int xcoord;
     private int ycoord;
     private int directionmultiple;
+    private String direction;
+
 
     public Runner(int ycoord) {
         this.xcoord = 0;
         this.ycoord = ycoord;
         this.directionmultiple = 0;
+        this.direction = "EAST";
     }  
 
+    public int getXCoord() {
+        return xcoord;
+    }
+
+    public int getYCoord() {
+        return ycoord;
+    }
+
     public String getDirection() {
-        int directionvalue = directionmultiple % 4;
-        String direction = null;
+        return direction;
+    }
+
+    //modulus operator (needed instead of remainder)
+    public int mod(int x, int y) {
+    int result = x % y;
+    if (result < 0) {
+        result += y;
+    }
+    return result;
+    }
+
+    public void setDirection() {
+        int directionvalue = mod(directionmultiple, 4);
         switch (directionvalue) {
             case 0:
                 direction = "EAST";
@@ -34,18 +57,41 @@ public class Runner {
                 direction = "NORTH";
                 break;
             default:
-                logger.error("ERROR: could not find current direction.");
+                logger.error("ERROR: could not find current direction. directionmultiple: {} directionvalue: {}", directionmultiple, directionvalue);
                 System.exit(1);
         }
-        return direction;
     }
 
     //changes the direction the runner is facing
-    public void changeDirection(boolean isrightturn) {
-        if (isrightturn == true) {
+    public void changeDirection(String direction) {
+        logger.trace("changing direction...");
+        if (direction == "RIGHT") {
             directionmultiple++;
-        } else {
+        } else if (direction == "LEFT") {
             directionmultiple--;
+        } else {
+            logger.error("ERROR: changeDirection() only intakes \"RIGHT\" or \"LEFT\"");
+            System.exit(1);
+        }
+        setDirection();
+        logger.info("direction changed");
+    }
+
+
+    public void moveForward() {
+        switch (direction) {
+            case "EAST":
+                xcoord++;
+                break;
+            case "NORTH":
+                ycoord--;
+                break;
+            case "WEST":
+                xcoord--;
+                break;
+            case "SOUTH":
+                ycoord++;
+                break;
         }
     }
 }

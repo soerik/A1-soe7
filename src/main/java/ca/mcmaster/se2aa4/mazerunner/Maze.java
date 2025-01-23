@@ -11,25 +11,45 @@ public class Maze {
     
     private static final Logger logger = LogManager.getLogger();
     
+    private String mazeinput;
     private int[][] maze;
     private int wall;
     private int pass;
     private int[] dimensions;
     private int xlen;
     private int ylen;
-    private String mazeinput;
+    private int starty;
+    private int endy;
 
     public Maze(String mazeinput) {
         this.mazeinput = mazeinput;
         this.wall = 1;
         this.pass = 0;
-        this.dimensions = mazeDimensions();
+        this.dimensions = getMazeDimensions();
         this.xlen = dimensions[0];
         this.ylen = dimensions[1];
         this.maze = mazeParser();
+        this.starty = locateStart();
+        this.endy = locateEnd();
     }
 
-    public int[] mazeDimensions() {
+    public int getXLen() {
+        return xlen;
+    }
+
+    public int getYLen() {
+        return ylen;
+    }
+
+    public int getStartY() {
+        return starty;
+    }
+
+    public int getEndY() {
+        return endy;
+    }
+
+    public int[] getMazeDimensions() {
         int maze_xlen = 0;
         int maze_ylen = 0;
         
@@ -81,6 +101,7 @@ public class Maze {
             ycoord++;
             iswall = maze[0][ycoord];
         }
+        logger.info("Maze Entrace Coordinates: {}, {}", 0, ycoord);
         return ycoord;
     }
 
@@ -92,6 +113,7 @@ public class Maze {
             ycoord++;
             iswall = maze[xlen-1][ycoord];
         }
+        logger.info("Maze Exit Coordinates: {}, {}", xlen-1, ycoord);
         return ycoord;
     }
 

@@ -27,25 +27,25 @@ public class PathUtils {
     }
 
     public boolean canMoveForward() {
-        String direction = runner.getDirection();
+        Direction direction = runner.getDirection();
         boolean valid = false;
         switch (direction) {
-            case "EAST":
+            case EAST:
                 if (runner.getXCoord() < maze.getXLen() - 1) {
                     valid = maze.isPassable(runner.getXCoord() + 1, runner.getYCoord());
                 }
                 break;
-            case "NORTH":
+            case NORTH:
                 if (runner.getYCoord() > 0) {
                     valid = maze.isPassable(runner.getXCoord(), runner.getYCoord() - 1);
                 }
                 break;
-            case "WEST":
+            case WEST:
                 if (runner.getXCoord() > 0) {
                     valid = maze.isPassable(runner.getXCoord() - 1, runner.getYCoord());
                 }
                 break;
-            case "SOUTH":
+            case SOUTH:
                 if (runner.getXCoord() < maze.getYLen() - 1) {
                     valid = maze.isPassable(runner.getXCoord(), runner.getYCoord() + 1);
                     break;

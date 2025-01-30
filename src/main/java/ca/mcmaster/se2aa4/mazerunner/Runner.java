@@ -7,17 +7,18 @@ public class Runner {
     
     private static final Logger logger = LogManager.getLogger();
     
+
     private int xcoord;
     private int ycoord;
     private int directionmultiple;
-    private String direction;
+    private Direction direction;
 
 
     public Runner(int ycoord) {
         this.xcoord = 0;
         this.ycoord = ycoord;
         this.directionmultiple = 0;
-        this.direction = "EAST";
+        this.direction = Direction.EAST;
     }  
 
     public int getXCoord() {
@@ -28,9 +29,10 @@ public class Runner {
         return ycoord;
     }
 
-    public String getDirection() {
+    public Direction getDirection() {
         return direction;
     }
+
 
     //modulus operator (needed instead of remainder)
     public int mod(int x, int y) {
@@ -45,19 +47,19 @@ public class Runner {
         int directionvalue = mod(directionmultiple, 4);
         switch (directionvalue) {
             case 0:
-                direction = "EAST";
+                direction = Direction.EAST;
                 break;
             case 1:
-                direction = "SOUTH";
+                direction = Direction.SOUTH;
                 break;
             case 2:
-                direction = "WEST";
+                direction = Direction.WEST;
                 break;            
             case 3:
-                direction = "NORTH";
+                direction = Direction.NORTH;
                 break;
             default:
-                logger.error("ERROR: could not find current direction. directionmultiple: {} directionvalue: {}", directionmultiple, directionvalue);
+                logger.error("ERROR: could not find current direction. directionmultiple: {} direction: {}", directionmultiple, direction);
                 System.exit(1);
         }
     }
@@ -80,16 +82,16 @@ public class Runner {
 
     public void moveForward() {
         switch (direction) {
-            case "EAST":
+            case EAST:
                 xcoord++;
                 break;
-            case "NORTH":
+            case NORTH:
                 ycoord--;
                 break;
-            case "WEST":
+            case WEST:
                 xcoord--;
                 break;
-            case "SOUTH":
+            case SOUTH:
                 ycoord++;
                 break;
         }

@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.util.Scanner; 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.commons.cli.*;
 
 public class Maze {
     
@@ -63,6 +62,7 @@ public class Maze {
                 maze_xlen = line.length();
                 maze_ylen++;
             }
+            scanner.close();
         } catch (FileNotFoundException e) {
             logger.error("file not found");
             System.exit(1);
@@ -86,6 +86,7 @@ public class Maze {
                 }
                 y++;
             }
+            scanner.close();
         } catch (FileNotFoundException e) {
             logger.error("file not found");
             System.exit(1);

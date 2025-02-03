@@ -38,7 +38,7 @@ public class Maze {
 
     public int getYLen() {
         return ylen;
-    }
+    }   
 
     public int getStartY() {
         return starty;

@@ -10,16 +10,21 @@ public class Runner {
 
     private int xcoord;
     private int ycoord;
-    private int directionmultiple;
     private Direction direction;
 
-
+    //left to right runner
     public Runner(int ycoord) {
         this.xcoord = 0;
         this.ycoord = ycoord;
-        this.directionmultiple = 0;
         this.direction = Direction.EAST;
     }  
+
+    //right to left runner
+    public Runner(int xcoord, int ycoord) {
+        this.xcoord = xcoord;
+        this.ycoord = ycoord;
+        this.direction = Direction.WEST;
+    }
 
     public int getXCoord() {
         return xcoord;
@@ -43,40 +48,39 @@ public class Runner {
     return result;
     }
 
-    public void setDirection() {
-        int directionvalue = mod(directionmultiple, 4);
-        switch (directionvalue) {
-            case 0:
-                direction = Direction.EAST;
-                break;
-            case 1:
-                direction = Direction.SOUTH;
-                break;
-            case 2:
-                direction = Direction.WEST;
-                break;            
-            case 3:
-                direction = Direction.NORTH;
-                break;
-            default:
-                logger.error("ERROR: could not find current direction. directionmultiple: {} direction: {}", directionmultiple, direction);
-                System.exit(1);
-        }
-    }
 
     //changes the direction the runner is facing
-    public void changeDirection(String direction) {
+    public void changeDirection(boolean isturningright) {
         logger.trace("changing direction...");
-        if (direction == "RIGHT") {
-            directionmultiple++;
-        } else if (direction == "LEFT") {
-            directionmultiple--;
+        if (direction == Direction.EAST) {
+            if (isturningright == true) {
+                direction = Direction.SOUTH;
+            } else {
+                direction = Direction.NORTH;
+            }
+        } else if (direction == Direction.SOUTH) {
+            if (isturningright == true) {
+                direction = Direction.WEST;
+            } else {
+                direction = Direction.EAST;
+            }
+        } else if (direction == Direction.WEST) {
+            if (isturningright == true) {
+                direction = Direction.NORTH;
+            } else {
+                direction = Direction.SOUTH;
+            }
+        } else if (direction == Direction.NORTH) {
+            if (isturningright == true) {
+                direction = Direction.EAST;
+            } else {
+                direction = Direction.WEST;
+            }
         } else {
-            logger.error("ERROR: changeDirection() only intakes \"RIGHT\" or \"LEFT\"");
+            logger.error("ERROR: direction variable does not point to direction.");
             System.exit(1);
         }
-        setDirection();
-        logger.info("direction changed");
+        logger.info("direction changed. Now facing {}", direction);
     }
 
 

@@ -11,24 +11,39 @@ public class Main {
     public static void main(String[] args) {
         Options options = new Options();
         options.addOption("i", true, "maze input");
-        options.addOption("p", true, "path input");
+
+        Option pathOption = Option.builder("p")
+            .hasArgs()
+            .desc("path input")
+            .build();
+        options.addOption(pathOption);
 
         CommandLineParser parser = new DefaultParser();
         CommandLine cmd;
-        String mazeinput = null;
+        String mazeinput = null;        
         String pathinput = null;
+        String[] patharray = null;
         Boolean checkpath = false;
 
         logger.info("** Starting Maze Runner");
         try {
             cmd = parser.parse( options, args);
             if (cmd.hasOption("i") && cmd.hasOption("p")) {
+                logger.trace("Detected i & p flags");
                 mazeinput = cmd.getOptionValue("i");
-                pathinput = cmd.getOptionValue("p");
+                patharray = cmd.getOptionValues("p");
+                if (patharray != null) {
+                    pathinput = String.join(" ", patharray); // Join back into a full string
+                } else {
+                    logger.error("No path given.");
+                    System.exit(1);
+                }
+
                 logger.info("Maze successfully inputted: {}", mazeinput);
                 logger.info("Path successfully inputted: {}", pathinput);
                 checkpath = true;
             } else if (cmd.hasOption("i")) {
+                logger.trace("detected i flag");
                 mazeinput = cmd.getOptionValue("i");
                 logger.info("Maze successfully inputted: {}", mazeinput);
                 checkpath = false;
@@ -42,18 +57,26 @@ public class Main {
         logger.info("**** Computing path");
         //BUSINESS LOGIC HERE
         Maze maze = new Maze(mazeinput);
-        Runner runner = new Runner(maze.getStartY());
 
         //checks if path is correct (p flag used)
         if (checkpath == true) {
+            Runner lsrunner = new Runner(maze.getStartY());
+            Runner rsrunner = new Runner(maze.getXLen()-1, maze.getEndY());
+            PathChecker path1 = new PathChecker(maze, lsrunner, pathinput);
+            PathChecker path2 = new PathChecker(maze, rsrunner, pathinput);
             
-            PathChecker path = new PathChecker(maze, runner, pathinput);
-            path.checkPath();
-
+            if (path1.checkPath()) {
+                System.out.println("correct path");
+            } else if (path2.checkPath()) {
+                System.out.println("correct path");
+            } else {
+                System.out.println("incorrect path");
+            }
         }
         
         //finds possible path (no p flag used)
         else {
+            Runner runner = new Runner(maze.getStartY());
             PathFinder path = new PathFinder(maze, runner);
             path.findPath();
         }

@@ -1,9 +1,10 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
+import java.lang.StringBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class PathFinder extends PathUtils {
+public class PathFinder extends PathUtils implements FindsPath {
     
     private static final Logger logger = LogManager.getLogger();
 
@@ -12,47 +13,32 @@ public class PathFinder extends PathUtils {
     }
     
     public void findPath() {
-
-        while (!isAtExit()) {
-            algoMove();
-        }
-
-
-
-
-        /* 
-        int maxsteps = maze.getXLen() * maze.getYLen() * 2;
-        int steps = 0;
-        while (!isAtExit() && steps < maxsteps) {
-            if (canMoveForward()) {
-                runner.moveForward();
-                System.out.print("F");
-            } 
-            steps++;
-        }
-        System.out.println();
-
-        if (isAtExit()) {
-            logger.info("Path found!");
-        } else  {
-            logger.error("ERROR:Path was not found.");
-        }   
-        */
+        String canonicalpath = rightHandAlgorithm(); 
+        String factorizedpath = canonicalToFactorized(canonicalpath);
+        System.out.println(factorizedpath);
     }
 
-    public void algoMove() {
+
+    public String rightHandAlgoMove() {
         if (isRightHandPassable()) {
-            runner.changeDirection("RIGHT");
+            runner.changeDirection(true);
             runner.moveForward();
-            System.out.print(" R F");
+            return "RF";
         } else if (canMoveForward()) {
             runner.moveForward();
-            System.out.print("F");
+            return "F";
         } else {
-            runner.changeDirection("LEFT");
-            runner.moveForward();
-            System.out.print(" L ");
+            runner.changeDirection(false);
+            return "L";
         }
+    }
+
+    public String rightHandAlgorithm() {
+        StringBuilder canonicalpath = new StringBuilder();
+        while (!isAtRightExit()) {
+            canonicalpath.append(rightHandAlgoMove());
+        }
+        return canonicalpath.toString();
     }
 
     public boolean isRightHandPassable() {

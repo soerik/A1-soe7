@@ -12,11 +12,11 @@ public class Runner {
     private int ycoord;
     private Direction direction;
 
-    //right to left runner
-    public Runner(int xcoord, int ycoord) {
+
+    public Runner(int xcoord, int ycoord, Direction direction) {
         this.xcoord = xcoord;
         this.ycoord = ycoord;
-        this.direction = Direction.WEST;
+        this.direction = direction;
     }
 
     public int getXCoord() {
@@ -30,17 +30,6 @@ public class Runner {
     public Direction getDirection() {
         return direction;
     }
-
-
-    //modulus operator (needed instead of remainder)
-    public int mod(int x, int y) {
-    int result = x % y;
-    if (result < 0) {
-        result += y;
-    }
-    return result;
-    }
-
 
     //changes the direction the runner is facing
     public void changeDirection(boolean isturningright) {

@@ -12,13 +12,6 @@ public class Runner {
     private int ycoord;
     private Direction direction;
 
-    //left to right runner
-    public Runner(int ycoord) {
-        this.xcoord = 0;
-        this.ycoord = ycoord;
-        this.direction = Direction.EAST;
-    }  
-
     //right to left runner
     public Runner(int xcoord, int ycoord) {
         this.xcoord = xcoord;

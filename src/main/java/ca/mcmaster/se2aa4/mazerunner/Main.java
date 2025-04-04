@@ -60,8 +60,9 @@ public class Main {
 
         //checks if path is correct (p flag used)
         if (checkpath == true) {
-            Runner lsrunner = new Runner(maze.getStartY());
-            Runner rsrunner = new Runner(maze.getXLen()-1, maze.getEndY());
+            
+            Runner lsrunner = RunnerFactory.createRunner("leftToRight", maze);
+            Runner rsrunner = RunnerFactory.createRunner("rightToLeft", maze);
             PathChecker path1 = new PathChecker(maze, lsrunner, pathinput);
             PathChecker path2 = new PathChecker(maze, rsrunner, pathinput);
             
@@ -76,7 +77,7 @@ public class Main {
         
         //finds possible path (no p flag used)
         else {
-            Runner runner = new Runner(maze.getStartY());
+            Runner runner = RunnerFactory.createRunner("leftToRight", maze);
             PathFinder path = new PathFinder(maze, runner);
             path.findPath();
         }

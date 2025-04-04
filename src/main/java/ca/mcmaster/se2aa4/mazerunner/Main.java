@@ -20,51 +20,26 @@ public class Main {
 
         CommandLineParser parser = new DefaultParser();
         CommandLine cmd;
-        String mazeinput = null;        
-        String pathinput = null;
-        String[] patharray = null;
-        Boolean checkpath = false;
+        InputData inputdata = null;
 
         logger.info("** Starting Maze Runner");
         try {
             cmd = parser.parse( options, args);
-            if (cmd.hasOption("i") && cmd.hasOption("p")) {
-                logger.trace("Detected i & p flags");
-                mazeinput = cmd.getOptionValue("i");
-                patharray = cmd.getOptionValues("p");
-                if (patharray != null) {
-                    pathinput = String.join(" ", patharray); // Join back into a full string
-                } else {
-                    logger.error("No path given.");
-                    System.exit(1);
-                }
-
-                logger.info("Maze successfully inputted: {}", mazeinput);
-                logger.info("Path successfully inputted: {}", pathinput);
-                checkpath = true;
-            } else if (cmd.hasOption("i")) {
-                logger.trace("detected i flag");
-                mazeinput = cmd.getOptionValue("i");
-                logger.info("Maze successfully inputted: {}", mazeinput);
-                checkpath = false;
-            } else {
-                logger.error("Error: No -i flag found.");
-                System.exit(1);
-            }
+            inputdata = CLIAdapter.adapt(cmd);
         } catch(Exception e) {
             logger.error("/!\\ An error has occured /!\\");
         }
         logger.info("**** Computing path");
         //BUSINESS LOGIC HERE
-        Maze maze = new Maze(mazeinput);
+        Maze maze = new Maze(inputdata.getMazeInput());
 
         //checks if path is correct (p flag used)
-        if (checkpath == true) {
+        if (inputdata.isCheckPath() == true) {
             
             Runner lsrunner = RunnerFactory.createRunner("leftToRight", maze);
             Runner rsrunner = RunnerFactory.createRunner("rightToLeft", maze);
-            PathChecker path1 = new PathChecker(maze, lsrunner, pathinput);
-            PathChecker path2 = new PathChecker(maze, rsrunner, pathinput);
+            PathChecker path1 = new PathChecker(maze, lsrunner, inputdata.getPathInput());
+            PathChecker path2 = new PathChecker(maze, rsrunner, inputdata.getPathInput());
             
             if (path1.checkPath()) {
                 System.out.println("correct path");

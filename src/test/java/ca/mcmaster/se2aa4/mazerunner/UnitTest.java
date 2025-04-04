@@ -54,36 +54,21 @@ public class UnitTest {
     // Test 4: Verify that factorizedToCanonical converts a factorized path into its canonical form.
     @Test
     public void testFactorizedToCanonical() {
-        // Create a dummy PathUtils instance (using an anonymous subclass) since the method doesn't depend on maze/runner.
+        PathFinder dummy = new PathFinder(null, null);
         String input = "2F L 3R";
-        
-        PathChecker dummy = new PathChecker(null, null, input) {
-            @Override
-            public boolean isAtRightExit() { return false; }
-            @Override
-            public boolean isAtLeftExit() { return false; }
-            @Override
-            public boolean canMoveForward() { return false; }
-        };
-        
         String expected = "FFLRRR";
+
         assertEquals(expected, dummy.factorizedToCanonical(input));
     }
 
     // Test 5: Verify that canonicalToFactorized compresses a canonical path correctly.
     @Test
     public void testCanonicalToFactorized() {
-        PathFinder dummy = new PathFinder(null, null) {
-            @Override
-            public boolean isAtRightExit() { return false; }
-            @Override
-            public boolean isAtLeftExit() { return false; }
-            @Override
-            public boolean canMoveForward() { return false; }
-        };
-        String canonical = "FFLRRR";
+        PathFinder dummy = new PathFinder(null, null) ;
+        String input = "FFLRRR";
         String expected = "2F L 3R";
-        assertEquals(expected, dummy.canonicalToFactorized(canonical));
+
+        assertEquals(expected, dummy.canonicalToFactorized(input));
     }
 
     @Test
@@ -96,7 +81,7 @@ public class UnitTest {
     }
 
     @Test
-    public void testLefTurn() {
+    public void testLeftTurn() {
         // Right turn (East to North)
         Runner runner = new Runner(0,0, Direction.EAST); 
         runner.changeDirection(false);

@@ -12,7 +12,6 @@ public class Runner {
     private int ycoord;
     private Direction direction;
 
-
     public Runner(int xcoord, int ycoord, Direction direction) {
         this.xcoord = xcoord;
         this.ycoord = ycoord;
